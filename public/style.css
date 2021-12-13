@@ -1,0 +1,131 @@
+body{
+    color:blue;
+}
+
+.main{
+  width: 1000px;
+  height: 1000px;
+  background-color: red;
+
+}
+
+.first-block
+{
+    position: absolute;
+    top: 100px;
+    left: 0px;
+}
+
+.second-block
+{
+    position: absolute;
+    top: 0px;
+    left: 300px;
+}
+
+.simon{
+}
+
+.blue{
+  background-color:blue;
+  color:white;
+  border-radius: 5px;
+  padding: 3px;
+  width: 90px;
+  height: 40px;
+}
+
+.light-blue{
+  background-color:#00008B;
+  color:#E0E1E4;
+  border-radius: 5px;
+  padding: 3px;
+  width: 90px;
+  height: 40px;
+}
+
+.green{
+  background-color:green;
+  color:white;
+  border-radius: 5px;
+  padding: 3px;
+  width: 90px;
+  height: 40px;
+}
+
+.light-green{
+  background-color:#006400;
+  color:#E0E1E4;
+  color:white;
+  border-radius: 5px;
+  padding: 3px;
+  width: 90px;
+  height: 40px;
+}
+
+.yellow{
+  background-color:yellow;
+  color:black;
+  border-radius: 5px;
+  padding: 3px;
+  width: 90px;
+  height: 40px;
+}
+
+.light-yellow{
+  background-color:#8B8000;
+  color:black;
+  border-radius: 5px;
+  padding: 3px;
+  width: 90px;
+  height: 40px;
+}
+
+.red{
+  background-color:red;
+  color:white;
+  border-radius: 5px;
+  padding: 3px;
+  width: 90px;
+  height: 40px;
+}
+.light-red{
+  background-color:#8B0000;
+  color:#E0E1E4;
+  border-radius: 5px;
+  padding: 3px;
+  width: 90px;
+  height: 40px;
+}
+
+.rectangle{
+    width:100px;
+    height:300px;
+    background:blue;
+    color:red;
+    align-self: center;
+    text-align: center;
+}
+
+.rcorners1 {
+  border-radius: 25px;
+  background: black;
+  padding: 20px;
+  width: 200px;
+  height: 150px;
+}
+
+.background-color{
+
+
+}
+
+.password-footer{
+    font-weight: 900;
+    font-size: 1.125rem;
+    text-align: center;
+    background-color: blue;
+    color: red;
+    margin: 2.5rem 0 0;
+    font-family: futura-pt,sans-serif;
+}
