@@ -1,15 +1,13 @@
+
 <!DOCTYPE html>
 <html>
   <head>
-    You are cool
-    <link rel="stylesheet" href="./style.css">
-    <title>Superior Website</title>
-  </head>
+    <title> Superior Website </title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel = "javasheet" href = "" type =</head>
 
   <body>
     <div class="main">
-
-
     <video class="product-video" poster="https://i0.wp.com/www.printmag.com/wp-content/uploads/2021/02/4cbe8d_f1ed2800a49649848102c68fc5a66e53mv2.gif?fit=476%2C280&ssl=1" id="bg4" playsinline="" muted="" autoplay="" loop=""></video>
     </video>
     <div class="rectangle">
@@ -21,50 +19,224 @@
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 </footer>
 
-<div class="rcorners1">
-  <div class:"simon">
-    <button class="green" id="greenButton">Green Button</button>
-    <button class="red" id="redButton">Red Button</button>
-    <button class="blue" id="blueButton">Blue Button</button>
-    <button class="yellow" id="yellowButton">Yellow Button</button>
-  </div>
-</div>
+<hr>
 
-</div>
-</body>
+<h2>The Simon Game</h2>
+      <center>
+      <div class = "status" id= "status">Click play to begin.</div>
+      </center>
+      <br>
+      <center>
+    <div class = "simon wrapper" id="grid">
+      <button class = "green unclickable" id = "GreenButton"></button>
+      <button class = "yellow unclickable" id = "YellowButton"></button>
+      <button class = "red unclickable" id = "RedButton"></button>
+      <button class = "blue unclickable" id = "BlueButton"></button>
+    </div>
+      <button class = "start" id = "start">Play</button>
+      <center>
+    </div>
+    <br>
+  </body>
 
   <script>
+  let greenButton = document.getElementById("GreenButton");
+  let yellowButton = document.getElementById("YellowButton");
+  let redButton = document.getElementById("RedButton");
+  let blueButton = document.getElementById("BlueButton");
+  let status = document.getElementById("status");
+  let startButton = document.getElementById("start");
+  greenButton.addEventListener('click', greenClick);
+  yellowButton.addEventListener('click', yellowClick);
+  redButton.addEventListener('click', redClick);
+  blueButton.addEventListener('click', blueClick);
+  startButton.addEventListener ("click", (event) => {startGame();});
 
-  function blueClick(){
-  document.getElementById('blueButton').classList.remove('blue');
-  document.getElementById('blueButton').classList.add('light-blue');
-  console.log('blue button clicked');
+  let stage = 1;
+  let userSequence=[];
+  let numLit=0;
+  let solutions=[];
+  let showSequence=true;
+  let sequenceInterval=0;
+
+  function startGame(){
+    startButton.classList.add('hidden');
+    status.innerHTML=("Stage 1/12");
+    generateSolutions();
+    sequenceInterval=setInterval(showNextStep, 900);
+  }
+
+  function showNextStep(){
+    showSequence = true;
+    status.innerHTML = ("Stage "+stage+"/12");
+    greenButton.classList.add('unclickable');
+    yellowButton.classList.add('unclickable');
+    redButton.classList.add('unclickable');
+    blueButton.classList.add('unclickable');
+
+    if (stage==numLit){
+      clearInterval(sequenceInterval);
+      turnOffLights();
+      showSequence = false;
+      greenButton.classList.remove('unclickable');
+      yellowButton.classList.remove('unclickable');
+      redButton.classList.remove('unclickable');
+      blueButton.classList.remove('unclickable');
+    }else{
+      turnOffLights();
+      setTimeout(()=>{flashButton();}, 200);
+    }
+  }
+
+  function turnOffLights(){
+    greenButton.classList.remove('litGreen');
+    yellowButton.classList.remove('litYellow');
+    redButton.classList.remove('litRed');
+    blueButton.classList.remove('litBlue');
+  }
+
+  function generateSolutions(){
+    for (var i = 0; i<10; i++){
+      solutions.push(Math.floor(Math.random()*4+1));
+    }
+  }
+
+  function lightGreen(){
+      greenButton.classList.add('litGreen');
+  }
+
+  function lightYellow(){
+      yellowButton.classList.add('litYellow');
+  }
+
+  function lightRed(){
+      redButton.classList.add('litRed');
+  }
+  function lightBlue(){
+      blueButton.classList.add('litBlue');
+  }
+
+  function flashButton(){
+    if(solutions[numLit]==1){
+      lightGreen();
+    }else if(solutions[numLit]==2){
+      lightYellow();
+    }else if(solutions[numLit]==3){
+      lightRed();
+    }else{
+      lightBlue();
+    }
+    numLit++;
   }
 
   function greenClick(){
-  document.getElementById('greenButton').classList.remove('green');
-  document.getElementById('greenButton').classList.add('light-green');
-  console.log('green button clicked');
+    if (showSequence == false){
+        userSequence.push(1);
+        if (1 !== solutions[userSequence.length-1]){
+          status.innerHTML= ("Incorrect...restarting")
+          setTimeout(()=>{restart();}, 1200);
+        }else{
+          lightGreen();
+          setTimeout(()=>{turnOffLights();}, 300);
+          if(userSequence.length==12){
+            win();
+          }else if(userSequence.length==stage){
+            stage++;
+            userSequence=[];
+            showSequence=true;
+            numLit=0;
+            sequenceInterval=setInterval(showNextStep, 900);
+          }
+        }
+      }
   }
 
   function redClick(){
-  document.getElementById('redButton').classList.remove('red');
-  document.getElementById('redButton').classList.add('light-red');
-  console.log('red button clicked');
+    if(showSequence == false){
+        userSequence.push(3);
+        if(3!==solutions[userSequence.length-1]){
+          status.innerHTML=("Incorrect...restarting")
+          setTimeout(()=>{restart();}, 1200);
+        }else{
+          lightRed();
+          setTimeout(()=>{turnOffLights();}, 300);
+          if(userSequence.length==12){
+            win();
+          }else if(userSequence.length==stage){
+            stage++;
+            userSequence=[];
+            showSequence=true;
+            numLit=0;
+            sequenceInterval=setInterval(showNextStep, 900);
+          }
+        }
+      }
   }
 
   function yellowClick(){
-  document.getElementById('yellowButton').classList.remove('yellow');
-  document.getElementById('yellowButton').classList.add('light-yellow');
-  console.log('yellow button clicked');
+    if(showSequence==false) {
+        userSequence.push(2);
+        if(2!==solutions[userSequence.length - 1]){
+          status.innerHTML=("Incorrect...restarting")
+          setTimeout(()=>{restart();}, 1200);
+        }else{
+          lightYellow();
+          setTimeout(()=>{turnOffLights();}, 300);
+          if(userSequence.length==12){
+            win();
+          }else if(userSequence.length==stage){
+            stage++;
+            userSequence=[];
+            showSequence=true;
+            numLit=0;
+            sequenceInterval=setInterval(showNextStep, 900);
+          }
+        }
+      }
   }
 
-  var someButton = 'redButton';
-  document.getElementById("greenButton").addEventListener("click",greenClick);
-  document.getElementById("redButton").addEventListener("click",redClick);
-  document.getElementById("blueButton").addEventListener("click",blueClick);
-  document.getElementById("yellowButton").addEventListener("click",yellowClick);</script>
+  function blueClick(){
+    if(showSequence==false){
+        userSequence.push(4);
+        if(4!==solutions[userSequence.length-1]){
+          status.innerHTML=("Incorrect...restarting")
+          setTimeout(()=>{restart();}, 1200);
+        }else{
+          lightBlue();
+          setTimeout(()=>{turnOffLights();}, 300);
+          if (userSequence.length==12){
+            win();
+          }else if(userSequence.length==stage){
+            stage++;
+            userSequence=[];
+            showSequence=true;
+            numLit=0;
+            sequenceInterval=setInterval(showNextStep, 900);
+          }
+        }
+      }
+    }
 
+    function win(){
+      status.innerHTML=("You won!");
+      setTimeout(()=>{restart();}, 1200);
+    }
 
+    function restart(){
+      solutions=[];
+      userSequence=[];
+      numLit=0;
+      stage = 1;
+      turnOffLights();
+      sequenceInterval = 0;
 
+      status.innerHTML=("Click play to begin.");
+      startButton.classList.remove('hidden');
+      greenButton.classList.add('unclickable');
+      yellowButton.classList.add('unclickable');
+      redButton.classList.add('unclickable');
+      blueButton.classList.add('unclickable');
+    }
+
+  </script>
 </html>
