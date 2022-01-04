@@ -61,14 +61,14 @@
 
   function startGame(){
     startButton.classList.add('hidden');
-    status.innerHTML=("Stage 1/12");
+    status.innerHTML=("Stage 1/10");
     generateSolutions();
     sequenceInterval=setInterval(showNextStep, 900);
   }
 
   function showNextStep(){
     showSequence = true;
-    status.innerHTML = ("Stage "+stage+"/12");
+    status.innerHTML = ("Stage "+stage+"/10");
     greenButton.classList.add('unclickable');
     yellowButton.classList.add('unclickable');
     redButton.classList.add('unclickable');
@@ -138,7 +138,7 @@
         }else{
           lightGreen();
           setTimeout(()=>{turnOffLights();}, 300);
-          if(userSequence.length==12){
+          if(userSequence.length==10){
             win();
           }else if(userSequence.length==stage){
             stage++;
@@ -160,7 +160,7 @@
         }else{
           lightRed();
           setTimeout(()=>{turnOffLights();}, 300);
-          if(userSequence.length==12){
+          if(userSequence.length==10){
             win();
           }else if(userSequence.length==stage){
             stage++;
@@ -182,7 +182,7 @@
         }else{
           lightYellow();
           setTimeout(()=>{turnOffLights();}, 300);
-          if(userSequence.length==12){
+          if(userSequence.length==10){
             win();
           }else if(userSequence.length==stage){
             stage++;
@@ -204,7 +204,7 @@
         }else{
           lightBlue();
           setTimeout(()=>{turnOffLights();}, 300);
-          if (userSequence.length==12){
+          if (userSequence.length==10){
             win();
           }else if(userSequence.length==stage){
             stage++;
