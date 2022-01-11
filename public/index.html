@@ -42,59 +42,52 @@
   </body>
 
   <script>
-
+  let greenButton = document.getElementById("GreenButton");
+  let yellowButton = document.getElementById("YellowButton");
+  let redButton = document.getElementById("RedButton");
+  let blueButton = document.getElementById("BlueButton");
   let status = document.getElementById("status");
-
-  let buttons = {
-    greenButton : document.getElementById("GreenButton"),
-    yellowButton : document.getElementById("YellowButton"),
-    redButton : document.getElementById("RedButton"),
-    blueButton : document.getElementById("BlueButton"),
-    startButton : document.getElementById("start"),
-  }
-
+  let startButton = document.getElementById("start");
   if(window.localStorage.myHighScore==null){
     window.localStorage.myHighScore=0;
   }
   document.getElementById("highScore").innerHTML="High Score: " + window.localStorage.myHighScore;
-  buttons.greenButton.addEventListener('click', greenClick);
-  buttons.yellowButton.addEventListener('click', yellowClick);
-  buttons.redButton.addEventListener('click', redClick);
-  buttons.blueButton.addEventListener('click', blueClick);
-  buttons.startButton.addEventListener ("click", (event) => {startGame();});
+  greenButton.addEventListener('click', greenClick);
+  yellowButton.addEventListener('click', yellowClick);
+  redButton.addEventListener('click', redClick);
+  blueButton.addEventListener('click', blueClick);
+  startButton.addEventListener ("click", (event) => {startGame();});
 
-  let settings = {
-    stage : 1,
-    userSequence:[],
-    numLit:0,
-    solutions:[],
-    showSequence:true,
-    sequenceInterval:0,
-  }
+  let stage = 1;
+  let userSequence=[];
+  let numLit=0;
+  let solutions=[];
+  let showSequence=true;
+  let sequenceInterval=0;
 
   function startGame(){
-    buttons.startButton.classList.add('hidden');
+    startButton.classList.add('hidden');
     status.innerHTML=("Stage 1");
     generateSolutions();
-    settings.sequenceInterval=setInterval(showNextStep, 900);
+    sequenceInterval=setInterval(showNextStep, 900);
   }
 
   function showNextStep(){
-    settings.showSequence = true;
-    status.innerHTML = ("Stage "+settings.stage+"");
-    buttons.greenButton.classList.add('unclickable');
-    buttons.yellowButton.classList.add('unclickable');
-    buttons.redButton.classList.add('unclickable');
-    buttons.blueButton.classList.add('unclickable');
+    showSequence = true;
+    status.innerHTML = ("Stage "+stage+"");
+    greenButton.classList.add('unclickable');
+    yellowButton.classList.add('unclickable');
+    redButton.classList.add('unclickable');
+    blueButton.classList.add('unclickable');
 
-    if (settings.stage==settings.numLit){
-      clearInterval(settings.sequenceInterval);
+    if (stage==numLit){
+      clearInterval(sequenceInterval);
       turnOffLights();
-      settings.showSequence = false;
-      buttons.greenButton.classList.remove('unclickable');
-      buttons.yellowButton.classList.remove('unclickable');
-      buttons.redButton.classList.remove('unclickable');
-      buttons.blueButton.classList.remove('unclickable');
+      showSequence = false;
+      greenButton.classList.remove('unclickable');
+      yellowButton.classList.remove('unclickable');
+      redButton.classList.remove('unclickable');
+      blueButton.classList.remove('unclickable');
     }else{
       turnOffLights();
       setTimeout(()=>{flashButton();}, 200);
@@ -102,144 +95,144 @@
   }
 
   function turnOffLights(){
-    buttons.greenButton.classList.remove('litGreen');
-    buttons.yellowButton.classList.remove('litYellow');
-    buttons.redButton.classList.remove('litRed');
-    buttons.blueButton.classList.remove('litBlue');
+    greenButton.classList.remove('litGreen');
+    yellowButton.classList.remove('litYellow');
+    redButton.classList.remove('litRed');
+    blueButton.classList.remove('litBlue');
   }
 
   function generateSolutions(){
     for (var i = 0; i<10; i++){
-      settings.solutions.push(Math.floor(Math.random()*4+1));
+      solutions.push(Math.floor(Math.random()*4+1));
     }
   }
 
   function lightGreen(){
-      buttons.greenButton.classList.add('litGreen');
+      greenButton.classList.add('litGreen');
   }
 
   function lightYellow(){
-      buttons.yellowButton.classList.add('litYellow');
+      yellowButton.classList.add('litYellow');
   }
 
   function lightRed(){
-      buttons.redButton.classList.add('litRed');
+      redButton.classList.add('litRed');
   }
   function lightBlue(){
-      buttons.blueButton.classList.add('litBlue');
+      blueButton.classList.add('litBlue');
   }
 
   function flashButton(){
-    if(settings.solutions[settings.numLit]==1){
+    if(solutions[numLit]==1){
       lightGreen();
-    }else if(settings.solutions[settings.numLit]==2){
+    }else if(solutions[numLit]==2){
       lightYellow();
-    }else if(settings.solutions[settings.numLit]==3){
+    }else if(solutions[numLit]==3){
       lightRed();
     }else{
       lightBlue();
     }
-    settings.numLit++;
+    numLit++;
   }
 
   function greenClick(){
-    if (settings.showSequence == false){
-        settings.userSequence.push(1);
-        if (1!==settings.solutions[settings.userSequence.length-1]){
+    if (showSequence == false){
+        userSequence.push(1);
+        if (1!==solutions[userSequence.length-1]){
           status.innerHTML= ("Incorrect...restarting")
           setTimeout(()=>{restart();}, 1200);
         }else{
           lightGreen();
           setTimeout(()=>{turnOffLights();}, 300);
-          if(settings.userSequence.length==settings.stage){
-            settings.stage++;
-            settings.userSequence=[];
-            settings.showSequence=true;
-            settings.numLit=0;
-            settings.sequenceInterval=setInterval(showNextStep, 900);
+          if(userSequence.length==stage){
+            stage++;
+            userSequence=[];
+            showSequence=true;
+            numLit=0;
+            sequenceInterval=setInterval(showNextStep, 900);
           }
         }
       }
   }
 
   function redClick(){
-    if(settings.showSequence == false){
-        settings.userSequence.push(3);
-        if(3!==settings.solutions[settings.userSequence.length-1]){
+    if(showSequence == false){
+        userSequence.push(3);
+        if(3!==solutions[userSequence.length-1]){
           status.innerHTML=("Incorrect...restarting")
           setTimeout(()=>{restart();}, 1200);
         }else{
           lightRed();
           setTimeout(()=>{turnOffLights();}, 300);
-          if(settings.userSequence.length==settings.stage){
-            settings.stage++;
-            settings.userSequence=[];
-            settings.showSequence=true;
-            settings.numLit=0;
-            settings.sequenceInterval=setInterval(showNextStep, 900);
+          if(userSequence.length==stage){
+            stage++;
+            userSequence=[];
+            showSequence=true;
+            numLit=0;
+            sequenceInterval=setInterval(showNextStep, 900);
           }
         }
       }
   }
 
   function yellowClick(){
-    if(settings.showSequence==false) {
-        settings.userSequence.push(2);
-        if(2!==settings.solutions[settings.userSequence.length - 1]){
+    if(showSequence==false) {
+        userSequence.push(2);
+        if(2!==solutions[userSequence.length - 1]){
           status.innerHTML=("Incorrect...restarting")
           setTimeout(()=>{restart();}, 1200);
         }else{
           lightYellow();
           setTimeout(()=>{turnOffLights();}, 300);
-          if(settings.userSequence.length==settings.stage){
-            settings.stage++;
-            settings.userSequence=[];
-            settings.showSequence=true;
-            settings.numLit=0;
-            settings.sequenceInterval=setInterval(showNextStep, 900);
+          if(userSequence.length==stage){
+            stage++;
+            userSequence=[];
+            showSequence=true;
+            numLit=0;
+            sequenceInterval=setInterval(showNextStep, 900);
           }
         }
       }
   }
 
   function blueClick(){
-    if(settings.showSequence==false){
-        settings.userSequence.push(4);
-        if(4!==settings.solutions[settings.userSequence.length-1]){
+    if(showSequence==false){
+        userSequence.push(4);
+        if(4!==solutions[userSequence.length-1]){
           status.innerHTML=("Incorrect...restarting")
           setTimeout(()=>{restart();}, 1200);
         }else{
           lightBlue();
           setTimeout(()=>{turnOffLights();}, 300);
-          if(settings.userSequence.length==settings.stage){
-            settings.stage++;
-            settings.userSequence=[];
-            settings.showSequence=true;
-            settings.numLit=0;
-            settings.sequenceInterval=setInterval(showNextStep, 900);
+          if(userSequence.length==stage){
+            stage++;
+            userSequence=[];
+            showSequence=true;
+            numLit=0;
+            sequenceInterval=setInterval(showNextStep, 900);
           }
         }
       }
     }
 
     function restart(){
-      if((settings.stage-1)>window.localStorage.myHighScore){
-        window.localStorage.myHighScore=(settings.stage-1);
+      if((stage-1)>window.localStorage.myHighScore){
+        window.localStorage.myHighScore=(stage-1);
         highScore.innerHTML="High Score: "+window.localStorage.myHighScore;
       }
-      settings.solutions=[];
-      settings.userSequence=[];
-      settings.numLit=0;
-      settings.stage = 1;
+      solutions=[];
+      userSequence=[];
+      numLit=0;
+      stage = 1;
       turnOffLights();
-      settings.sequenceInterval = 0;
+      sequenceInterval = 0;
 
       status.innerHTML=("Click play to begin.");
-      buttons.startButton.classList.remove('hidden');
-      buttons.greenButton.classList.add('unclickable');
-      buttons.yellowButton.classList.add('unclickable');
-      buttons.redButton.classList.add('unclickable');
-      buttons.blueButton.classList.add('unclickable');
+      startButton.classList.remove('hidden');
+      greenButton.classList.add('unclickable');
+      yellowButton.classList.add('unclickable');
+      redButton.classList.add('unclickable');
+      blueButton.classList.add('unclickable');
     }
 
   </script>
