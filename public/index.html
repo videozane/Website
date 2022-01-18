@@ -14,7 +14,7 @@
       <h1> rectangle </h1>
     </div>
 
-    <canvas id="canvas" width="500" height="400"></canvas>
+  <canvas id="canvas" width="500" height="400"></canvas>
 
 
 <footer class="password-footer">
@@ -72,9 +72,8 @@ function initializeAnimation() {
 }
 
 function drawArt(ctx) {
-
+  var time = new Date();
   ctx.save();
-  var time2 = new Date();
   // Draw triangle
   ctx.beginPath();
 
@@ -102,16 +101,20 @@ function drawArt(ctx) {
   ctx.moveTo(270, 90);
   ctx.lineTo(180, 80);
 
+  ctx.save();
+  ctx.translate(time.getMilliseconds() / 10, 0);
   ctx.moveTo(410, 110);
   ctx.arc(310, 110, 100, 0, Math.PI * 2);
   ctx.stroke();
+  ctx.restore();
 
   ctx.save();
-  var time = new Date();
+  ctx.translate(235, 102.5);
   ctx.rotate(time.getSeconds() + time.getMilliseconds() / 1200);
+  ctx.translate(-235, -102.5);
   ctx.beginPath();
   ctx.moveTo(200, 115);
-  ctx.lineTo(270, 90); //animate this lin
+  ctx.lineTo(270, 90);
   ctx.stroke();
   ctx.restore();
 }
