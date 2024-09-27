@@ -14,6 +14,8 @@
       <h1> rectangle </h1>
     </div>
 
+  <canvas id="canvas" width="500" height="400"></canvas>
+
 
 <footer class="password-footer">
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
@@ -64,6 +66,77 @@
   let solutions=[];
   let showSequence=true;
   let sequenceInterval=0;
+
+function initializeAnimation() {
+  window.requestAnimationFrame(draw);
+}
+
+function drawArt(ctx) {
+  var time = new Date();
+  ctx.save();
+  // Draw triangle
+  ctx.beginPath();
+
+  ctx.moveTo(100, 100);
+  ctx.lineTo(100, 215);
+
+  ctx.moveTo(100, 100);
+  ctx.lineTo(180, 80);
+
+  ctx.moveTo(100, 100);
+  ctx.lineTo(200, 115);
+
+  ctx.moveTo(100, 215);
+  ctx.lineTo(200, 230);
+
+  ctx.moveTo(200, 115);
+  ctx.lineTo(200, 230);
+
+  ctx.moveTo(200, 230);
+  ctx.lineTo(270, 190);
+
+  ctx.moveTo(270, 190);
+  ctx.lineTo(270, 90);
+
+  ctx.moveTo(270, 90);
+  ctx.lineTo(180, 80);
+
+  ctx.save();
+  ctx.translate(time.getMilliseconds() / 10, 0);
+  ctx.moveTo(410, 110);
+  ctx.arc(310, 110, 100, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.restore();
+
+  ctx.save();
+  ctx.translate(235, 102.5);
+  ctx.rotate(time.getSeconds() + time.getMilliseconds() / 1200);
+  ctx.translate(-235, -102.5);
+  ctx.beginPath();
+  ctx.moveTo(200, 115);
+  ctx.lineTo(270, 90);
+  ctx.stroke();
+  ctx.restore();
+}
+
+function draw() {
+  var ctx = document.getElementById('canvas').getContext('2d');
+  ctx.globalCompositeOperation = 'destination-over';
+  ctx.clearRect(0, -250, 500, 600); // clear canvas
+
+  // Figure out what pen we wanna draw with
+  ctx.fillStyle = 'rgba(0, 153, 255, 1)';
+  ctx.strokeStyle = 'rgba(0, 153, 255, 0.4)';
+
+  ctx.save();
+  ctx.lineWidth = 6;
+  drawArt(ctx);
+  ctx.restore();
+  // Call draw when the website is ready
+  window.requestAnimationFrame(draw);
+}
+
+initializeAnimation();
 
   function startGame(){
     startButton.classList.add('hidden');
